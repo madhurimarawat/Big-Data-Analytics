@@ -27,12 +27,12 @@ This experiment involves the installation and setup of Hadoop on your system. It
 ### 2. Data Exploration with Hadoop
 
 **Description:**
-In this experiment, you will use Hadoop to explore large-scale datasets stored in the Hadoop Distributed File System (HDFS). Perform basic operations such as listing files, reading data, and calculating summary statistics.
+In this experiment, we will use Hadoop to explore large-scale datasets stored in the Hadoop Distributed File System (HDFS). Perform basic operations such as listing files, reading data, and calculating summary statistics.
 
 ### 3. Word Count with MapReduce
 
 **Description:**
-Implement the classic MapReduce word count algorithm to count the frequency of words in a large text corpus stored in HDFS. This experiment demonstrates the power of MapReduce for processing and analyzing large volumes of text data.
+Implemented the classic MapReduce word count algorithm to count the frequency of words in a large text corpus stored in HDFS. This experiment demonstrates the power of MapReduce for processing and analyzing large volumes of text data.
 
 ## Additional Resources
 
