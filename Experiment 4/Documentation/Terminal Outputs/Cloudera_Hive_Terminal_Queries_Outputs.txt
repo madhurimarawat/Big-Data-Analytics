@@ -1,0 +1,531 @@
+[cloudera@quickstart ~]$ SHOW DATABASES;
+bash: SHOW: command not found
+[cloudera@quickstart ~]$ hive
+    
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j.properties
+WARNING: Hive CLI is deprecated and migration to Beeline is recommended.
+hive> SHOW DATABASES;
+OK
+default
+madhurima_database
+Time taken: 8.147 seconds, Fetched: 2 row(s)
+hive> CREATE DATABASE madhurima_database;
+OK
+Time taken: 6.817 seconds
+hive> SHOW DATABASES;
+OK
+default
+madhurima_database
+madhurima_database
+Time taken: 1.488 seconds, Fetched: 3 row(s)
+hive> use madhurima_database;
+OK
+Time taken: 0.53 seconds
+hive>  CREATE TABLE Customers(customer_id INT, name STRING, city STRING) ROW FORMAT  DELIMITED FIELDS TERMINATED BY ',';
+OK
+Time taken: 0.881 seconds
+hive> CREATE TABLE Orders(order_id INT, customer_id INT, amount FLOAT, date  STRING) ROW FORMAT  DELIMITED FIELDS TERMINATED BY ',';
+OK
+Time taken: 4.882 seconds
+hive> 
+    > SHOW TABLES;
+OK
+customers
+orders
+Time taken: 1.318 seconds, Fetched: 2 row(s)
+hive> DESCRIBE madhurima_database.customers;
+OK
+customer_id         	int                 	                    
+name                	string              	                    
+city                	string              	                    
+Time taken: 0.967 seconds, Fetched: 3 row(s)
+hive> DESCRIBE madhurima_database.customers;
+OK
+customer_id         	int                 	                    
+name                	string              	                    
+city                	string              	                    
+Time taken: 1.241 seconds, Fetched: 3 row(s)
+hive> DESCRIBE madhurima_database.orders;
+OK
+order_id            	int                 	                    
+customer_id         	int                 	                    
+amount              	float               	                    
+date                	string              	                    
+Time taken: 0.53 seconds, Fetched: 4 row(s)
+hive> LOAD DATA LOCAL INPATH 'file:///home/cloudera/Downloads/Customers.txt' INTO TABLE customers;
+Loading data to table madhurima_database.customers
+Table madhurima_database.customers stats: [numFiles=1, totalSize=96]
+OK
+Time taken: 9.524 seconds
+hive> LOAD DATA LOCAL INPATH 'file:///home/cloudera/Downloads/Orders.txt' INTO TABLE orders;
+Loading data to table madhurima_database.orders
+Table madhurima_database.orders stats: [numFiles=1, totalSize=190]
+OK
+Time taken: 0.854 seconds
+hive> SELECT * FROM customers;
+OK
+1	Alice	New York
+2	Bob	Los Angeles
+3	Charlie	Chicago
+4	Dave	New York
+5	Eve	Miami
+6	Frank	Boston
+Time taken: 1.465 seconds, Fetched: 6 row(s)
+hive> SELECT * FROM orders;
+OK
+101	1	100.5	2024-10-01
+102	2	200.0	2024-10-02
+103	1	50.75	2024-10-03
+104	3	80.0	2024-10-03
+105	4	300.0	2024-10-04
+106	5	120.0	2024-10-05
+107	2	150.0	2024-10-05
+108	6	250.0	2024-10-06
+Time taken: 0.446 seconds, Fetched: 8 row(s)
+hive> SELECT o.order_id, o.amount, c.name, c.city
+    > 
+    > ;
+FAILED: SemanticException [Error 10004]: Line 1:7 Invalid table alias or column reference 'o': (possible column names are: )
+hive> SELECT o.order_id, o.amount, c.name, c.city
+    > ;
+FAILED: SemanticException [Error 10004]: Line 1:7 Invalid table alias or column reference 'o': (possible column names are: )
+hive> SELECT o.order_id, o.amount, c.name, c.city
+    > FROM orders o
+    > JOIN customers c
+    > ON o.customer_id = c.customer_id
+    > WHERE c.city = 'New York';
+Query ID = cloudera_20241011043737_07c19a79-414a-40d4-a890-3e5d826e42b6
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011043737_07c19a79-414a-40d4-a890-3e5d826e42b6.log
+2024-10-11 04:38:23	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 04:38:35	Dump the side-table for tag: 1 with group count: 2 into file: file:/tmp/cloudera/4052da17-15c3-437b-a83c-6c8a00a70fea/hive_2024-10-11_04-37-47_043_5551661335138930260-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile01--.hashtable
+2024-10-11 04:38:36	Uploaded 1 File to: file:/tmp/cloudera/4052da17-15c3-437b-a83c-6c8a00a70fea/hive_2024-10-11_04-37-47_043_5551661335138930260-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile01--.hashtable (309 bytes)
+2024-10-11 04:38:36	End of local task; Time Taken: 12.273 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1728640488912_0012, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0012/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0012
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 0
+2024-10-11 04:38:54,814 Stage-3 map = 0%,  reduce = 0%
+2024-10-11 04:39:18,839 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 3.28 sec
+MapReduce Total cumulative CPU time: 3 seconds 280 msec
+Ended Job = job_1728640488912_0012
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1   Cumulative CPU: 3.28 sec   HDFS Read: 7142 HDFS Write: 74 SUCCESS
+Total MapReduce CPU Time Spent: 3 seconds 280 msec
+OK
+101	100.5	Alice	New York
+103	50.75	Alice	New York
+105	300.0	Dave	New York
+Time taken: 94.098 seconds, Fetched: 3 row(s)
+hive> SELECT o.order_id, o.amount, c.name
+    > FROM orders o
+    > JOIN customers c
+    > ON o.customer_id = c.customer_id
+    > WHERE o.amount > 150;
+Query ID = cloudera_20241011043939_5649d3dd-3d96-4f3b-81c5-2ea2d850334f
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011043939_5649d3dd-3d96-4f3b-81c5-2ea2d850334f.log
+2024-10-11 04:39:43	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 04:39:45	Dump the side-table for tag: 1 with group count: 6 into file: file:/tmp/cloudera/4052da17-15c3-437b-a83c-6c8a00a70fea/hive_2024-10-11_04-39-35_491_6642646468138288476-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile11--.hashtable
+2024-10-11 04:39:45	Uploaded 1 File to: file:/tmp/cloudera/4052da17-15c3-437b-a83c-6c8a00a70fea/hive_2024-10-11_04-39-35_491_6642646468138288476-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile11--.hashtable (407 bytes)
+2024-10-11 04:39:45	End of local task; Time Taken: 2.109 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1728640488912_0013, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0013/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0013
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 0
+2024-10-11 04:39:58,544 Stage-3 map = 0%,  reduce = 0%
+2024-10-11 04:40:09,333 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 1.92 sec
+MapReduce Total cumulative CPU time: 1 seconds 920 msec
+Ended Job = job_1728640488912_0013
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1   Cumulative CPU: 1.92 sec   HDFS Read: 7249 HDFS Write: 45 SUCCESS
+Total MapReduce CPU Time Spent: 1 seconds 920 msec
+OK
+102	200.0	Bob
+105	300.0	Dave
+108	250.0	Frank
+Time taken: 36.304 seconds, Fetched: 3 row(s)
+hive> SELECT c.name, o.order_id, o.amount
+    > FROM customers c
+    > JOIN orders o
+    > ON c.customer_id = o.customer_id;
+Query ID = cloudera_20241011044040_3e5cc6cd-66bc-461c-a712-b1de5ceb25d2
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011044040_3e5cc6cd-66bc-461c-a712-b1de5ceb25d2.log
+2024-10-11 04:40:46	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 04:40:49	Dump the side-table for tag: 0 with group count: 6 into file: file:/tmp/cloudera/4052da17-15c3-437b-a83c-6c8a00a70fea/hive_2024-10-11_04-40-38_947_5097393223597532585-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile20--.hashtable
+2024-10-11 04:40:49	Uploaded 1 File to: file:/tmp/cloudera/4052da17-15c3-437b-a83c-6c8a00a70fea/hive_2024-10-11_04-40-38_947_5097393223597532585-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile20--.hashtable (407 bytes)
+2024-10-11 04:40:49	End of local task; Time Taken: 2.734 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1728640488912_0014, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0014/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0014
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 0
+2024-10-11 04:41:01,091 Stage-3 map = 0%,  reduce = 0%
+2024-10-11 04:41:16,374 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 2.02 sec
+MapReduce Total cumulative CPU time: 2 seconds 20 msec
+Ended Job = job_1728640488912_0014
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1   Cumulative CPU: 2.02 sec   HDFS Read: 7008 HDFS Write: 122 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 20 msec
+OK
+Alice	101	100.5
+Bob	102	200.0
+Alice	103	50.75
+Charlie	104	80.0
+Dave	105	300.0
+Eve	106	120.0
+Bob	107	150.0
+Frank	108	250.0
+Time taken: 39.658 seconds, Fetched: 8 row(s)
+hive> SELECT c.name, o.order_id, o.amount
+    > FROM customers c
+    > LEFT JOIN orders o
+    > ON c.customer_id = o.customer_id;
+Query ID = cloudera_20241011044141_8cb75fe4-7a7a-4b32-8726-dc6533de062a
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011044141_8cb75fe4-7a7a-4b32-8726-dc6533de062a.log
+2024-10-11 04:41:51	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 04:41:54	Dump the side-table for tag: 1 with group count: 6 into file: file:/tmp/cloudera/4052da17-15c3-437b-a83c-6c8a00a70fea/hive_2024-10-11_04-41-44_546_5816610996970201220-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile31--.hashtable
+2024-10-11 04:41:54	Uploaded 1 File to: file:/tmp/cloudera/4052da17-15c3-437b-a83c-6c8a00a70fea/hive_2024-10-11_04-41-44_546_5816610996970201220-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile31--.hashtable (424 bytes)
+2024-10-11 04:41:54	End of local task; Time Taken: 2.623 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1728640488912_0015, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0015/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0015
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 0
+2024-10-11 04:42:05,564 Stage-3 map = 0%,  reduce = 0%
+2024-10-11 04:42:19,482 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 1.81 sec
+MapReduce Total cumulative CPU time: 1 seconds 810 msec
+Ended Job = job_1728640488912_0015
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1   Cumulative CPU: 1.81 sec   HDFS Read: 6732 HDFS Write: 122 SUCCESS
+Total MapReduce CPU Time Spent: 1 seconds 810 msec
+OK
+Alice	101	100.5
+Alice	103	50.75
+Bob	102	200.0
+Bob	107	150.0
+Charlie	104	80.0
+Dave	105	300.0
+Eve	106	120.0
+Frank	108	250.0
+Time taken: 37.183 seconds, Fetched: 8 row(s)
+hive> SELECT c.name, o.order_id, o.amount
+    > FROM customers c
+    > LEFT JOIN orders o
+    > ON c.customer_id = o.customer_id;
+Query ID = cloudera_20241011034646_587b428f-a9db-452d-af1b-bbab2f549db4
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011034646_587b428f-a9db-452d-af1b-bbab2f549db4.log
+2024-10-11 03:46:39	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 03:46:40	Dump the side-table for tag: 1 with group count: 6 into file: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-46-33_483_7299144092306840661-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile31--.hashtable
+2024-10-11 03:46:40	Uploaded 1 File to: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-46-33_483_7299144092306840661-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile31--.hashtable (424 bytes)
+2024-10-11 03:46:40	End of local task; Time Taken: 1.574 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1728640488912_0004, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0004/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0004
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 0
+2024-10-11 03:46:50,554 Stage-3 map = 0%,  reduce = 0%
+2024-10-11 03:47:00,467 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 1.26 sec
+MapReduce Total cumulative CPU time: 1 seconds 260 msec
+Ended Job = job_1728640488912_0004
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1   Cumulative CPU: 1.26 sec   HDFS Read: 6712 HDFS Write: 122 SUCCESS
+Total MapReduce CPU Time Spent: 1 seconds 260 msec
+OK
+Alice	101	100.5
+Alice	103	50.75
+Bob	102	200.0
+Bob	107	150.0
+Charlie	104	80.0
+Dave	105	300.0
+Eve	106	120.0
+Frank	108	250.0
+Time taken: 28.115 seconds, Fetched: 8 row(s)
+hive> SELECT c.name, o.order_id, o.amount
+    > FROM customers c
+    > RIGHT JOIN orders o
+    > ON c.customer_id = o.customer_id;
+Query ID = cloudera_20241011034747_36ba4311-87e1-4cdd-9727-a54b2bb71523
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011034747_36ba4311-87e1-4cdd-9727-a54b2bb71523.log
+2024-10-11 03:47:32	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 03:47:34	Dump the side-table for tag: 0 with group count: 6 into file: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-47-27_097_5391454028731267662-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile40--.hashtable
+2024-10-11 03:47:34	Uploaded 1 File to: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-47-27_097_5391454028731267662-1/-local-10003/HashTable-Stage-3/MapJoin-mapfile40--.hashtable (407 bytes)
+2024-10-11 03:47:34	End of local task; Time Taken: 1.491 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1728640488912_0005, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0005/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0005
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 0
+2024-10-11 03:47:44,520 Stage-3 map = 0%,  reduce = 0%
+2024-10-11 03:47:54,398 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 1.3 sec
+MapReduce Total cumulative CPU time: 1 seconds 300 msec
+Ended Job = job_1728640488912_0005
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1   Cumulative CPU: 1.3 sec   HDFS Read: 6805 HDFS Write: 122 SUCCESS
+Total MapReduce CPU Time Spent: 1 seconds 300 msec
+OK
+Alice	101	100.5
+Bob	102	200.0
+Alice	103	50.75
+Charlie	104	80.0
+Dave	105	300.0
+Eve	106	120.0
+Bob	107	150.0
+Frank	108	250.0
+Time taken: 28.4 seconds, Fetched: 8 row(s)
+hive> SELECT c.name, o.order_id, o.amount
+    > FROM customers c
+    > FULL OUTER JOIN orders o
+    > ON c.customer_id = o.customer_id;
+Query ID = cloudera_20241011034848_7f4836e6-17b3-4f89-a52e-b338681a5106
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1728640488912_0006, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0006/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0006
+Hadoop job information for Stage-1: number of mappers: 2; number of reducers: 1
+2024-10-11 03:48:16,338 Stage-1 map = 0%,  reduce = 0%
+2024-10-11 03:48:40,302 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 3.67 sec
+2024-10-11 03:48:53,145 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 4.97 sec
+MapReduce Total cumulative CPU time: 4 seconds 970 msec
+Ended Job = job_1728640488912_0006
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 2  Reduce: 1   Cumulative CPU: 4.97 sec   HDFS Read: 13928 HDFS Write: 122 SUCCESS
+Total MapReduce CPU Time Spent: 4 seconds 970 msec
+OK
+Alice	103	50.75
+Alice	101	100.5
+Bob	107	150.0
+Bob	102	200.0
+Charlie	104	80.0
+Dave	105	300.0
+Eve	106	120.0
+Frank	108	250.0
+Time taken: 46.554 seconds, Fetched: 8 row(s)
+hive> SELECT c.name, SUM(o.amount) AS total_spent
+    > FROM customers c
+    > JOIN orders o
+    > ON c.customer_id = o.customer_id
+    > GROUP BY c.name;
+Query ID = cloudera_20241011034949_bc8b5ef0-d906-494e-9a28-162f20c24f3a
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011034949_bc8b5ef0-d906-494e-9a28-162f20c24f3a.log
+2024-10-11 03:49:17	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 03:49:19	Dump the side-table for tag: 0 with group count: 6 into file: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-49-12_219_6755768598076937114-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile50--.hashtable
+2024-10-11 03:49:19	Uploaded 1 File to: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-49-12_219_6755768598076937114-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile50--.hashtable (407 bytes)
+2024-10-11 03:49:19	End of local task; Time Taken: 1.626 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1728640488912_0007, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0007/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0007
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2024-10-11 03:49:29,802 Stage-2 map = 0%,  reduce = 0%
+2024-10-11 03:49:38,339 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 1.14 sec
+2024-10-11 03:49:45,756 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 2.2 sec
+MapReduce Total cumulative CPU time: 2 seconds 200 msec
+Ended Job = job_1728640488912_0007
+MapReduce Jobs Launched: 
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 2.2 sec   HDFS Read: 11988 HDFS Write: 69 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 200 msec
+OK
+Alice	151.25
+Bob	350.0
+Charlie	80.0
+Dave	300.0
+Eve	120.0
+Frank	250.0
+Time taken: 34.643 seconds, Fetched: 6 row(s)
+hive> SELECT c.name, COUNT(o.order_id) AS order_count
+    > FROM customers c
+    > JOIN orders o
+    > ON c.customer_id = o.customer_id
+    > GROUP BY c.name;
+Query ID = cloudera_20241011035151_87c9cafd-e476-45c6-8c47-16bc782e138a
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011035151_87c9cafd-e476-45c6-8c47-16bc782e138a.log
+2024-10-11 03:51:32	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 03:51:33	Dump the side-table for tag: 0 with group count: 6 into file: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-51-27_327_5895450270935309011-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile60--.hashtable
+2024-10-11 03:51:33	Uploaded 1 File to: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-51-27_327_5895450270935309011-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile60--.hashtable (407 bytes)
+2024-10-11 03:51:33	End of local task; Time Taken: 1.455 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1728640488912_0008, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0008/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0008
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2024-10-11 03:51:42,611 Stage-2 map = 0%,  reduce = 0%
+2024-10-11 03:51:50,420 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 1.29 sec
+2024-10-11 03:52:02,230 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 2.43 sec
+MapReduce Total cumulative CPU time: 2 seconds 430 msec
+Ended Job = job_1728640488912_0008
+MapReduce Jobs Launched: 
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 2.43 sec   HDFS Read: 11811 HDFS Write: 45 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 430 msec
+OK
+Alice	2
+Bob	2
+Charlie	1
+Dave	1
+Eve	1
+Frank	1
+Time taken: 35.988 seconds, Fetched: 6 row(s)
+hive> SELECT c.city, AVG(o.amount) AS avg_order_amount
+    > FROM customers c
+    > JOIN orders o
+    > ON c.customer_id = o.customer_id
+    > GROUP BY c.city;
+Query ID = cloudera_20241011035252_a0269069-e570-4795-bbe0-bbd62a3ec843
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011035252_a0269069-e570-4795-bbe0-bbd62a3ec843.log
+2024-10-11 03:52:24	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 03:52:25	Dump the side-table for tag: 0 with group count: 6 into file: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-52-18_416_2382423967700495838-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile70--.hashtable
+2024-10-11 03:52:25	Uploaded 1 File to: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-52-18_416_2382423967700495838-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile70--.hashtable (425 bytes)
+2024-10-11 03:52:25	End of local task; Time Taken: 1.641 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1728640488912_0009, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0009/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0009
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2024-10-11 03:52:34,705 Stage-2 map = 0%,  reduce = 0%
+2024-10-11 03:52:42,103 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 1.19 sec
+2024-10-11 03:52:51,668 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 2.27 sec
+MapReduce Total cumulative CPU time: 2 seconds 270 msec
+Ended Job = job_1728640488912_0009
+MapReduce Jobs Launched: 
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 2.27 sec   HDFS Read: 12357 HDFS Write: 84 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 270 msec
+OK
+Boston	250.0
+Chicago	80.0
+Los Angeles	175.0
+Miami	120.0
+New York	150.41666666666666
+Time taken: 34.327 seconds, Fetched: 5 row(s)
+hive> SELECT c.name, SUM(o.amount) AS total_spent
+    > FROM customers c
+    > JOIN orders o
+    > ON c.customer_id = o.customer_id
+    > GROUP BY c.name
+    > HAVING SUM(o.amount) > 200;
+Query ID = cloudera_20241011035353_423e6388-451e-4f74-bd67-9c787ea2116d
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011035353_423e6388-451e-4f74-bd67-9c787ea2116d.log
+2024-10-11 03:53:08	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 03:53:09	Dump the side-table for tag: 0 with group count: 6 into file: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-53-01_573_2849208572614162284-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile80--.hashtable
+2024-10-11 03:53:09	Uploaded 1 File to: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-53-01_573_2849208572614162284-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile80--.hashtable (407 bytes)
+2024-10-11 03:53:09	End of local task; Time Taken: 1.726 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1728640488912_0010, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0010/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0010
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2024-10-11 03:53:24,055 Stage-2 map = 0%,  reduce = 0%
+2024-10-11 03:53:31,699 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 1.23 sec
+2024-10-11 03:53:41,199 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 2.57 sec
+MapReduce Total cumulative CPU time: 2 seconds 570 msec
+Ended Job = job_1728640488912_0010
+MapReduce Jobs Launched: 
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 2.57 sec   HDFS Read: 12230 HDFS Write: 33 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 570 msec
+OK
+Bob	350.0
+Dave	300.0
+Frank	250.0
+Time taken: 40.735 seconds, Fetched: 3 row(s)
+hive> SELECT c.name, COUNT(o.order_id) AS high_value_orders
+    > FROM customers c
+    > JOIN orders o
+    > ON c.customer_id = o.customer_id
+    > WHERE o.amount > 100
+    > GROUP BY c.name;
+Query ID = cloudera_20241011035353_eab2360c-e425-4610-8ace-ed54c3574f58
+Total jobs = 1
+Execution log at: /tmp/cloudera/cloudera_20241011035353_eab2360c-e425-4610-8ace-ed54c3574f58.log
+2024-10-11 03:53:52	Starting to launch local task to process map join;	maximum memory = 1013645312
+2024-10-11 03:53:53	Dump the side-table for tag: 0 with group count: 6 into file: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-53-47_479_9002115720133345514-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile90--.hashtable
+2024-10-11 03:53:53	Uploaded 1 File to: file:/tmp/cloudera/f95ff959-3534-4d4f-8dd3-5b840be8b312/hive_2024-10-11_03-53-47_479_9002115720133345514-1/-local-10004/HashTable-Stage-2/MapJoin-mapfile90--.hashtable (407 bytes)
+2024-10-11 03:53:53	End of local task; Time Taken: 1.367 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1728640488912_0011, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1728640488912_0011/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1728640488912_0011
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2024-10-11 03:54:02,229 Stage-2 map = 0%,  reduce = 0%
+2024-10-11 03:54:11,992 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 1.44 sec
+2024-10-11 03:54:23,928 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 2.62 sec
+MapReduce Total cumulative CPU time: 2 seconds 620 msec
+Ended Job = job_1728640488912_0011
+MapReduce Jobs Launched: 
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 2.62 sec   HDFS Read: 12319 HDFS Write: 35 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 620 msec
+OK
+Alice	1
+Bob	2
+Dave	1
+Eve	1
+Frank	1
+Time taken: 37.594 seconds, Fetched: 5 row(s)
+hive> 
