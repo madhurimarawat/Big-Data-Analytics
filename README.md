@@ -53,47 +53,23 @@ Seaborn is a statistical data visualization library based on Matplotlib. It prov
 
 ## Directory Structure 📂
 
-### Experiment 1
-
-- **Output** 📊  
-  This folder contains the output of Experiment 1.
-  - `Experiment 1 Output` (e.g., CSV, logs, or results)
-
-### Experiment 2
-
-- **Output** 📊  
-  Stores the results and outputs of Experiment 2.
-  - `Experiment 2 Output`
-- **Commands** 📋  
-  A text file listing the commands or steps used during Experiment 2.
-  - `commands.docs`
-
-### Experiment 3
-
-- **Codes** 💻  
-  This folder contains the code files used for Experiment 3.
-
-  - Python scripts, e.g., `main.py`
-
-- **Output** 📊  
-  Experiment 3 output results.
-  - `Experiment 3 Output`
-
-### Experiment 4 and onwards
-
 - **Codes** 💻 (If applicable)  
-  Contains code files used for the experiment.
-- **Documentation** 📝  
-  This folder contains the documentation related to each experiment. It includes both Markdown (`.md`) and PDF formats for easy reference. Markdown is converted to PDF using [md2pdf](https://md2pdf.netlify.app/) and [markdowntopdf](https://www.markdowntopdf.com/) for horizontally large tables.
-  - `documentation.md`
-  - `documentation.pdf`
-- **Dataset** 📁 (If applicable)  
-  Stores the datasets used in the experiment. If an experiment involves a dataset, place it here for easy access.
-  - e.g., `dataset.csv`
-- **Output** 📊  
-  Stores the output of the experiment.
-  - `Experiment X Output` (with the relevant experiment number)
+  Contains code files used for the data processing and analysis in each experiment. These files are critical for performing the tasks required in the experiment.
+  - e.g., `main.py`, `process_data.py`
 
+- **Documentation** 📝  
+  This folder contains detailed documentation for each experiment, including methodology, analysis, and insights. Documentation is provided in both Markdown (`.md`) and PDF formats for easy reference.
+  - `documentation.md` (Markdown version of the documentation)
+  - `documentation.pdf` (PDF version of the documentation)
+
+- **Dataset** 📁 (If applicable)  
+  Contains the datasets used for analysis in each experiment. Datasets are placed here to ensure easy access and organization.
+  - e.g., `data.csv`, `stream_data.json`
+
+- **Output** 📊  
+  Stores the output generated from each experiment, including visualizations, data analysis results, and any other relevant outputs.
+  - `Experiment X Output` (where "X" refers to the relevant experiment number)
+    
 ---
 
 ## Example Layout:
@@ -103,46 +79,44 @@ Big-Data-Analytics/
 │
 ├── Experiment 1/
 │   ├── Output/ 📊
-│   │   └── Experiment 1 Output
+│   │   └── Contains the results and analysis of Experiment 1.
 │
 ├── Experiment 2/
 │   ├── Output/ 📊
-│   │   └── Experiment 2 Output
+│   │   └── Contains the results and analysis of Experiment 2.
 │   ├── Commands/ 📋
-│   │   └── commands.docs
+│   │   └── Lists the commands used during Experiment 2.
 │
 ├── Experiment 3/
 │   ├── Codes/ 💻
-│   │   └── main.py
+│   │   └── Contains the code used for data processing in Experiment 3.
 │   ├── Output/ 📊
-│   │   └── Experiment 3 Output
+│   │   └── Contains the results and analysis of Experiment 3.
 │
 ├── Experiment 4/
 │   ├── Codes/ 💻
-│   │   └── process_data.py
+│   │   └── Contains the script for processing and visualizing data in Experiment 4.
 │   ├── Documentation/ 📝
-│   │   ├── documentation.md
-│   │   └── documentation.pdf
+│   │   ├── Detailed documentation explaining the methodology and analysis for Experiment 4.
 │   ├── Output/ 📊
-│   │   └── Experiment 4 Output
+│   │   └── Contains the results and analysis of Experiment 4.
 │
 ├── Experiment 5/
 │   ├── Dataset/ 📁
-│   │   └── data.csv
+│   │   └── The dataset used for analysis in Experiment 5.
 │   ├── Documentation/ 📝
-│   │   ├── documentation.md
-│   │   └── documentation.pdf
+│   │   ├── Comprehensive documentation detailing Experiment 5’s procedures and insights.
 │   ├── Output/ 📊
-│   │   └── Experiment 5 Output
+│   │   └── Contains the results and analysis of Experiment 5.
 │
 └── Experiment 6/
     ├── Dataset/ 📁
-    │   └── stream_data.json
+    │   └── The streaming data used for analysis in Experiment 6.
     ├── Documentation/ 📝
-    │   ├── documentation.md
-    │   └── documentation.pdf
+    │   ├── Explanation of methods and key observations from Experiment 6.
     ├── Output/ 📊
-    │   └── Experiment 6 Output
+    │   └── Contains the results and analysis of Experiment 6.
+
 ```
 
 ---
