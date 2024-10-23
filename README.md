@@ -4,8 +4,6 @@ This repository demonstrates big data processing, visualization, and machine lea
 
 <img src = "https://th.bing.com/th/id/R.8332a2c65eeaecfb365ec3a11e9c2b0e?rik=a86A6oZLes5OWw&riu=http%3a%2f%2ftimesquareit.com%2fimages%2fsl-1.jpg&ehk=VKCM0JR5%2b2hM2HSb%2b%2f6w88WsQFhqxkY3pnZymVms7mo%3d&risl=&pid=ImgRaw&r=0">
 
----
-
 ## Tools and Technologies ⚙️💻
 
 ### 1. [Python](https://www.python.org/)
