@@ -84,7 +84,7 @@ Seaborn is a statistical data visualization library based on Matplotlib. It prov
 - **Codes** 💻 (If applicable)  
   Contains code files used for the experiment.
 - **Documentation** 📝  
-  This folder contains the documentation related to each experiment. It includes both Markdown (`.md`) and PDF formats for easy reference. Markdown is converted to PDF using [md2pdf](https://md2pdf.netlify.app/).
+  This folder contains the documentation related to each experiment. It includes both Markdown (`.md`) and PDF formats for easy reference. Markdown is converted to PDF using [md2pdf](https://md2pdf.netlify.app/) and [markdowntopdf](https://www.markdowntopdf.com/) for horizontally large tables.
   - `documentation.md`
   - `documentation.pdf`
 - **Dataset** 📁 (If applicable)  
@@ -202,11 +202,6 @@ This experiment sets up a data streaming pipeline using Apache Kafka to ingest r
 
 **Description:**  
 In this experiment, Python and the Matplotlib library are used to visualize insights from large datasets. Various types of plots, such as histograms, scatter plots, and time series visualizations, are created to communicate findings effectively.
-
-## Additional Resources
-
-- **Detailed Documentation:** A Word document explaining each command used in the experiments.
-- **Output Document:** A document showcasing the outputs and results for each experiment.
 
 ## Thanks for Visiting 😄
 
