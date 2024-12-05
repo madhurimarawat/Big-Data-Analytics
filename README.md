@@ -154,57 +154,46 @@ Big-Data-Analytics/
 
 ### 1. [Hadoop Installation](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%201)
 
-**Description:**  
 This experiment involves the installation and setup of Hadoop on your system. It covers the necessary configurations to get Hadoop up and running, enabling exploration of its capabilities for handling large-scale data processing tasks.
 
 ### 2. [Data Exploration with Hadoop](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%202)
 
-**Description:**  
 In this experiment, we use Hadoop to explore large-scale datasets stored in the Hadoop Distributed File System (HDFS). Basic operations such as file listing, data reading, and summary statistics are performed to understand the structure and content of the datasets.
 
 ### 3. [Word Count with MapReduce](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%203)
-
-**Description:**  
+ 
 This experiment uses Apache Hive to run SQL queries on datasets stored in HDFS. We perform various SQL operations, such as filtering, joining, and aggregating large datasets to extract meaningful insights.
 
 ### 4. [SQL Queries with Hive](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%204)
 
-**Description:**  
 The classic MapReduce word count algorithm is implemented to count the frequency of words in a large text corpus stored in HDFS. This experiment demonstrates the Map and Reduce functions’ structure for processing large volumes of text data.
 
 ### 5. [Data Analysis with Apache Spark](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%205)
-
-**Description:**  
+ 
 In this experiment, Apache Spark is used to analyze large datasets. You will load data into Spark Resilient Distributed Datasets (RDDs) and perform operations such as filtering, mapping, and aggregation, showcasing Spark's efficiency in big data processing.
 
 ### 6. [Streaming Analytics with Kafka and Spark](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%206)
-
-**Description:**  
+ 
 This experiment sets up a data streaming pipeline using Apache Kafka to ingest real-time data. Apache Spark Streaming processes this data, demonstrating how real-time analytics can be performed on live data feeds.
 
 ### 7. [Data Visualization with Python and Matplotlib](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%207)
-
-**Description:**  
+ 
 In this experiment, Python and the Matplotlib library are used to visualize insights from large datasets. Various types of plots, such as histograms, scatter plots, and time series visualizations, are created to communicate findings effectively.
 
 ### 8. [Machine Learning Model Training with Spark MLlib](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%208)
-
-**Description:**  
+ 
 This experiment involves training machine learning models on large datasets using Apache Spark's MLlib library. Techniques such as cross-validation and model selection are utilized to evaluate and improve the performance of the models.
 
 ### 9. [Graph Analytics with GraphX](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%209)
-
-**Description:**  
+ 
 Using Apache Spark's GraphX library, this experiment focuses on exploring graph-structured data. Tasks include computing centrality measures, detecting communities, and performing other graph analytics tasks to uncover meaningful insights from graph data.
 
 ### 10. [Data Sampling and Stratification](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%2010)
-
-**Description:**  
+ 
 This experiment demonstrates data sampling techniques to create representative subsets of large datasets. Stratification methods are implemented to ensure balanced sampling based on specific criteria, which is crucial for unbiased analysis.
 
 ### 11. [Data Cleaning and Preprocessing with Pandas](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%2011)
 
-**Description:**  
 This experiment uses the Pandas library in Python to clean and preprocess large datasets. Issues such as missing values, outliers, and inconsistencies are addressed to prepare the data for further analysis.
 
 ## Thanks for Visiting 😄
