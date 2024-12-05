@@ -49,6 +49,16 @@ Matplotlib is a comprehensive plotting library for Python that allows users to c
 **Description:**  
 Seaborn is a statistical data visualization library based on Matplotlib. It provides a high-level interface for creating attractive and informative graphics, simplifying the process of creating complex visualizations.
 
+### 9. **[Spark MLlib](https://spark.apache.org/mllib/):** 
+
+**Description:** 
+Spark MLlib is a scalable machine learning library integrated with Apache Spark, designed to handle large-scale data processing efficiently. It offers a variety of algorithms and utilities for classification, regression, clustering, collaborative filtering, and dimensionality reduction.  
+
+### 10. **[GraphX](https://spark.apache.org/graphx/):**
+
+**Description:** 
+A component of Spark for graph processing and graph-structured data analytics. GraphX is Apache Spark’s library for graph analytics, providing a unified API for graph-parallel computation. It enables users to analyze, transform, and process graph-structured data effectively. 
+
 ---
 
 ## Directory Structure 📂
@@ -72,7 +82,7 @@ Seaborn is a statistical data visualization library based on Matplotlib. It prov
     
 ---
 
-## Example Layout:
+## Layout:
 
 ```
 Big-Data-Analytics/
@@ -116,7 +126,7 @@ Big-Data-Analytics/
     │   ├── Explanation of methods and key observations from Experiment 6.
     ├── Output/ 📊
     │   └── Contains the results and analysis of Experiment 6.
-
+.....
 ```
 
 ---
@@ -152,12 +162,12 @@ This experiment involves the installation and setup of Hadoop on your system. It
 **Description:**  
 In this experiment, we use Hadoop to explore large-scale datasets stored in the Hadoop Distributed File System (HDFS). Basic operations such as file listing, data reading, and summary statistics are performed to understand the structure and content of the datasets.
 
-### 3. [SQL Queries with Hive](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%203)
+### 3. [Word Count with MapReduce](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%203)
 
 **Description:**  
 This experiment uses Apache Hive to run SQL queries on datasets stored in HDFS. We perform various SQL operations, such as filtering, joining, and aggregating large datasets to extract meaningful insights.
 
-### 4. [Word Count with MapReduce](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%204)
+### 4. [SQL Queries with Hive](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%204)
 
 **Description:**  
 The classic MapReduce word count algorithm is implemented to count the frequency of words in a large text corpus stored in HDFS. This experiment demonstrates the Map and Reduce functions’ structure for processing large volumes of text data.
@@ -176,6 +186,26 @@ This experiment sets up a data streaming pipeline using Apache Kafka to ingest r
 
 **Description:**  
 In this experiment, Python and the Matplotlib library are used to visualize insights from large datasets. Various types of plots, such as histograms, scatter plots, and time series visualizations, are created to communicate findings effectively.
+
+### 8. [Machine Learning Model Training with Spark MLlib](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%208)
+
+**Description:**  
+This experiment involves training machine learning models on large datasets using Apache Spark's MLlib library. Techniques such as cross-validation and model selection are utilized to evaluate and improve the performance of the models.
+
+### 9. [Graph Analytics with GraphX](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%209)
+
+**Description:**  
+Using Apache Spark's GraphX library, this experiment focuses on exploring graph-structured data. Tasks include computing centrality measures, detecting communities, and performing other graph analytics tasks to uncover meaningful insights from graph data.
+
+### 10. [Data Sampling and Stratification](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%2010)
+
+**Description:**  
+This experiment demonstrates data sampling techniques to create representative subsets of large datasets. Stratification methods are implemented to ensure balanced sampling based on specific criteria, which is crucial for unbiased analysis.
+
+### 11. [Data Cleaning and Preprocessing with Pandas](https://github.com/madhurimarawat/Big-Data-Analytics/tree/main/Experiment%2011)
+
+**Description:**  
+This experiment uses the Pandas library in Python to clean and preprocess large datasets. Issues such as missing values, outliers, and inconsistencies are addressed to prepare the data for further analysis.
 
 ## Thanks for Visiting 😄
 
